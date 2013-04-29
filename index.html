@@ -21,13 +21,13 @@
 				<div data-role="fieldcontain">
 					<!--label for and input id are exactly the same-->
 					<label for="lat">Latitude</label>
-					<input type="text" name="" id="lat" value="">
+					<input type="text" name="" id="lat" value="38.4433">
 				</div>
 
 				<div data-role="fieldcontain">
 					<!--label for and input id are exactly the same-->
 					<label for="lon">Longitude</label>
-					<input type="text" name="" id="lon" value="">
+					<input type="text" name="" id="lon" value="-78.8728">
 				</div>
 
 				<input type="button" id="go-btn" value="Go" data-theme="b">
@@ -71,7 +71,7 @@
 		// This is called a 'callback' function, or just a callback:
 		// it allows your code to behave synchronously//
 		$.ajax({
-			url: url,
+			url: 'proxy.php?url='+url,
 			dataType: "json", 
 			success: function(data){
 		/*callback[data];
@@ -106,7 +106,7 @@
 					console.log(data.minutely.data[current].precipIntensity);
 					counter --;
 				};
-			};
+			}
 
 			// Now you need to figure out (in plain english)
 			// what you want to accomplish with the data.
