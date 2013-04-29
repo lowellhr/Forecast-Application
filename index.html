@@ -1,0 +1,120 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>GeoForecast</title>
+	<meta name="viewport" content="user-scalable=no, initial-scale=1">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.css" />
+	<script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.3.1/jquery.mobile-1.3.1.min.js"></script>
+</head>
+<body>
+	<div data-role="page" id="home" data-theme="c">
+		<div data-role="content">
+			<div data-role="header">
+				<h1>GeoForecast</h1>
+			</div>
+			<div>
+				<div data-role>
+				</div>
+
+				<div data-role="fieldcontain">
+					<!--label for and input id are exactly the same-->
+					<label for="lat">Latitude</label>
+					<input type="text" name="" id="lat" value="">
+				</div>
+
+				<div data-role="fieldcontain">
+					<!--label for and input id are exactly the same-->
+					<label for="lon">Longitude</label>
+					<input type="text" name="" id="lon" value="">
+				</div>
+
+				<input type="button" id="go-btn" value="Go" data-theme="b">
+
+				<div id="target" data-theme="d">
+
+				</div>
+			</div>
+		</div><!-- /content -->
+	</div><!-- /page -->
+
+
+	<script type="text/javascript">
+
+	// This is the beginning of your urls for your data calls //
+	var apiKey = 'https://api.forecast.io/forecast/19392d5a2542163b6633744a1606b490/';
+
+	// This method has the 'body' element listen for a 'tap' event
+	// that bubbles up from the element with an id of "go-btn"
+	// In Other Words:
+	// Whenever you tap the Go button, this function will be executed
+	// (An example lat,lon pair could be 37.8267,-122.423)
+	// (Fill the inputs with their respective numbers, and tap Go!)//
+	$('body').on('tap', '#go-btn', function(){
+		var lat = $('#lat').val(),
+			lon = $('#lon').val();
+
+		// This concatenates the variables together to form your 
+		// forecast.io api call//
+		var url = apiKey+lat+","+lon;
+
+		// you can look at this url by looking in your browsers console
+		// (Command + Option + i), then navigate to the 'console' section
+		/*console.log(url);*/
+
+		// This is an http GET request
+		// it is sent to the specified url, and the function handles
+		// the data that is returned.
+		// Within this function, you can reference the returned data
+		// through the arbitrarily named variable 'data'
+		// This is called a 'callback' function, or just a callback:
+		// it allows your code to behave synchronously//
+		$.ajax({
+			url: url,
+			dataType: "json", 
+			success: function(data){
+		/*callback[data];
+		units[us];*/
+
+				// Use the console (again, CMD + OPT + i) to inspect this
+				// JSON object (Chrome is my favorite for this)
+				// It will resemble an outline, only you can expand/collapse by clicking on the triangles
+				// any property that contains 'children'
+				console.log(data);
+
+				// You can parse this object directly
+				// using dot notation//
+				console.log(data.currently.temperature);
+
+				// Try to manually exploring the 'data' object to find
+				// the current temperature just displayed
+
+				// Try to retrieve the hourly summary
+				// (remove the string)
+				console.log("Now your turn!");
+
+				// Now here's a trickier example
+				// This finds an array and then loops through it
+				// displaying its precipIntensity
+				// (uncomment when you are ready)
+				
+				var counter = data.minutely.data.length;
+				console.log("Minute by minute forecast of the expected intensity of precipitation (inches of liquid water per hour) for the next hour: ");
+				while(counter) {
+					var current = 61 - counter;
+					console.log(data.minutely.data[current].precipIntensity);
+					counter --;
+				};
+			};
+
+			// Now you need to figure out (in plain english)
+			// what you want to accomplish with the data.
+			// Then we can figure out how to do it.
+
+		});
+	});
+
+	</script>
+</body>
+</html>
